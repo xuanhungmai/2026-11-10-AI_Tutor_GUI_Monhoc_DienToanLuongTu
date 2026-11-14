@@ -9,19 +9,21 @@
   html, body { height: 100%; }
   body {
     margin: 0; padding: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
     background: #e6f2ff;
     display: flex; flex-direction: column;
     overflow: hidden;
   }
+  
+  /* ===== HEADER ===== */
   header {
     background: #003366;
-    padding: 8px 12px;
+    padding: 10px 12px;
     text-align: center;
     border: 2px solid #555;
     margin: 8px 8px 4px 8px;
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
   header h1 {
     margin: 0; font-size: 1.05rem; color: #ffff00;
@@ -31,116 +33,209 @@
     margin: 4px 0 0;
     color: #fff; font-size: 0.78rem; font-style: italic;
   }
+
+  /* ===== LAYOUT ===== */
   .main {
     display: flex; flex: 1;
-    gap: 6px; padding: 4px 8px 8px;
+    gap: 8px; padding: 4px 8px 8px;
     min-height: 0;
   }
   .panel {
     background: #fff;
-    border: 1px solid #888;
+    border: 1px solid #b0c4de;
+    border-radius: 6px;
     display: flex; flex-direction: column;
     min-height: 0; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
   .panel-title {
     background: #004080; color: #fff;
-    padding: 6px 8px; font-size: 0.82rem; font-weight: bold;
+    padding: 8px 10px; font-size: 0.82rem; font-weight: bold;
     text-align: center; flex-shrink: 0;
+    letter-spacing: 0.5px;
   }
-  .left  { flex: 0 0 290px; }
+  .left  { flex: 0 0 310px; }
   .center{ flex: 1 1 auto; min-width: 0; }
-  .right { flex: 0 0 330px; background: #f0f7ff; }
+  .right { flex: 0 0 340px; background: #f8fbff; }
 
-  /* ===== TREE ===== */
+  /* ===== CỘT TRÁI: TREE MENU CHUYÊN NGHIỆP ===== */
   .tree {
-    flex: 1; overflow-y: auto; padding: 8px;
+    flex: 1; overflow-y: auto; padding: 12px;
+    background: #f4f7f9;
+  }
+  /* Thẻ bọc từng nhóm chuyên đề */
+  .tree details {
+    margin-bottom: 10px;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #d1d9e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+  .tree details:hover {
+    border-color: #a0b8d0;
+  }
+  /* Tiêu đề nhóm (Thay vì màu vàng chói) */
+  .tree summary {
+    padding: 12px 15px;
+    background: #e6f0fa; /* Xanh nhạt */
+    color: #003366;      /* Xanh đậm */
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: background 0.2s;
+    border-bottom: 1px solid transparent;
+  }
+  .tree summary:hover {
+    background: #d0e3f5;
+  }
+  /* Xoá mũi tên mặc định của trình duyệt */
+  .tree summary::-webkit-details-marker {
+    display: none;
+  }
+  /* Thêm icon mũi tên tuỳ chỉnh */
+  .tree summary::after {
+    content: '▼';
+    font-size: 0.7rem;
+    color: #0059b3;
+    transition: transform 0.3s ease;
+  }
+  .tree details[open] summary {
+    background: #004080;
+    color: #ffffff;
+    border-bottom: 1px solid #003366;
+  }
+  .tree details[open] summary::after {
+    color: #ffffff;
+    transform: rotate(-180deg);
+  }
+  
+  /* Danh sách các chuyên đề con */
+  .tree ul {
+    list-style: none;
+    padding: 0; margin: 0;
+    background: #ffffff;
+  }
+  .tree li {
+    padding: 11px 15px 11px 28px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .tree li:last-child {
+    border-bottom: none;
+  }
+  .tree li::before {
+    content: '⚛️';
+    position: absolute;
+    left: 10px;
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+  .tree li:hover {
+    background: #e6f2ff;
+    color: #0059b3;
+    padding-left: 32px; /* Hiệu ứng đẩy nhẹ sang phải */
+  }
+  .tree li:active {
     background: #cce6ff;
   }
-  .tree details { margin-bottom: 6px; }
-  .tree summary {
-    cursor: pointer; font-weight: bold; padding: 5px 6px;
-    background: #ffe680; border-radius: 3px;
-    font-size: 0.82rem; color: #003366;
-    user-select: none;
-  }
-  .tree ul { list-style: none; padding-left: 12px; margin: 4px 0; }
-  .tree li {
-    padding: 5px 7px; cursor: pointer;
-    font-size: 0.8rem; border-radius: 3px;
-    margin-bottom: 2px; color: #222;
-    border-left: 3px solid transparent;
-  }
-  .tree li:hover { background: #a8c8e8; border-left-color: #0059b3; }
 
-  /* ===== CHAT ===== */
+  /* ===== CỬA SỔ CHAT ===== */
   .chat {
     flex: 1; overflow-y: auto;
-    padding: 10px 12px;
+    padding: 12px 15px;
     font-family: Consolas, 'Courier New', monospace;
     font-size: 0.88rem;
-    line-height: 1.4;
+    line-height: 1.5;
     white-space: pre-wrap; word-wrap: break-word;
     background: #fcfdfd;
   }
-  .msg { margin-bottom: 10px; }
+  .msg { margin-bottom: 12px; }
   .msg-user   { color: #003366; font-weight: bold; font-family: 'Segoe UI', sans-serif; }
   .msg-ai     { color: #005511; font-family: 'Segoe UI', sans-serif; }
-  .msg-cot    { color: #8b0000; font-family: Consolas, monospace; font-size: 0.84rem; }
+  .msg-cot    { color: #8b0000; font-family: Consolas, monospace; font-size: 0.85rem; }
   .msg-system { color: #666; font-style: italic; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; }
 
-  /* ===== INPUT BAR ===== */
+  /* ===== THANH NHẬP LIỆU ===== */
   .input-bar {
-    display: flex; gap: 5px; padding: 8px;
-    background: #e6f2ff; border-top: 1px solid #999;
+    display: flex; gap: 6px; padding: 10px;
+    background: #e6f2ff; border-top: 1px solid #b0c4de;
     align-items: center; flex-shrink: 0;
   }
   .input-bar label {
-    font-size: 0.78rem; font-weight: bold; color: #003366;
+    font-size: 0.8rem; font-weight: bold; color: #003366;
     white-space: nowrap;
   }
   .input-bar input[type="text"] {
-    flex: 1; padding: 7px 8px;
-    border: 1px solid #999; border-radius: 3px;
+    flex: 1; padding: 8px 10px;
+    border: 1px solid #a0b8d0; border-radius: 4px;
     font-size: 0.88rem; min-width: 0;
+    outline: none; transition: border 0.2s;
   }
+  .input-bar input[type="text"]:focus {
+    border-color: #0059b3;
+    box-shadow: 0 0 0 2px rgba(0,89,179,0.2);
+  }
+  
+  /* ===== NÚT BẤM ===== */
   .btn {
-    padding: 7px 12px; border: none; border-radius: 3px;
+    padding: 8px 14px; border: none; border-radius: 4px;
     color: #fff; font-weight: bold; cursor: pointer;
     font-size: 0.82rem; white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
   }
-  .btn:hover { opacity: 0.85; }
+  .btn:active { transform: scale(0.97); }
   .btn-blue    { background: #0059b3; }
+  .btn-blue:hover { background: #004080; }
   .btn-red     { background: #cc0000; }
+  .btn-red:hover { background: #a30000; }
   .btn-green   { background: #008040; }
+  .btn-green:hover { background: #006633; }
   .btn-primary { background: #0066cc; }
+  .btn-primary:hover { background: #0052a3; }
 
-  /* ===== RIGHT PANEL ===== */
-  .tool-box { padding: 8px; border-bottom: 1px solid #ccc; flex-shrink: 0; }
+  /* ===== CỘT PHẢI: CÔNG CỤ ===== */
+  .tool-box { padding: 10px; border-bottom: 1px solid #d1d9e6; flex-shrink: 0; }
   .tool-box h4 {
-    margin: 0 0 8px; font-size: 0.82rem; color: #003366;
+    margin: 0 0 10px; font-size: 0.82rem; color: #003366;
+    text-align: center;
   }
   .tool-box label {
     display: block; font-size: 0.75rem; font-weight: bold;
-    color: #003366; margin: 6px 0 2px;
+    color: #003366; margin: 8px 0 4px;
   }
   .tool-box input[type="text"], .tool-box select {
-    width: 100%; padding: 5px 7px;
-    border: 1px solid #999; border-radius: 3px;
+    width: 100%; padding: 6px 8px;
+    border: 1px solid #a0b8d0; border-radius: 4px;
     font-family: Consolas, monospace; font-size: 0.83rem;
-    margin-bottom: 4px;
+    margin-bottom: 4px; outline: none;
   }
-  .tool-box .btn { width: 100%; margin-top: 6px; padding: 8px; }
+  .tool-box input[type="text"]:focus, .tool-box select:focus {
+    border-color: #0059b3;
+  }
+  .tool-box .btn { width: 100%; margin-top: 8px; padding: 10px; }
 
   .cheat-title {
     font-size: 0.82rem; font-weight: bold; color: #003366;
-    padding: 6px 8px; background: #f0f7ff;
-    border-bottom: 1px solid #ccc; flex-shrink: 0;
+    padding: 8px 10px; background: #e6f0fa;
+    border-bottom: 1px solid #d1d9e6; flex-shrink: 0;
+    text-align: center;
   }
   .cheat {
-    flex: 1; overflow-y: auto; padding: 8px 10px;
+    flex: 1; overflow-y: auto; padding: 10px 12px;
     font-family: Consolas, monospace; font-size: 0.76rem;
     color: #002b80; background: #fff;
-    white-space: pre-wrap; line-height: 1.35;
+    white-space: pre-wrap; line-height: 1.4;
   }
 </style>
 </head>
@@ -206,7 +301,7 @@
 
 <script>
 /* =====================================================================
-   1. DỮ LIỆU (nhúng trực tiếp — thay thế cho Quantum_KnowledgeBase.json)
+   1. DỮ LIỆU KNOWLEDGE BASE
    ===================================================================== */
 const knowledgeBase = {
   "qubit": {
@@ -281,7 +376,7 @@ const knowledgeBase = {
 };
 
 /* =====================================================================
-   2. DỮ LIỆU (nhúng trực tiếp — thay thế cho HoiDap.json)
+   2. DỮ LIỆU HỎI ĐÁP
    ===================================================================== */
 const qaData = [
   {
@@ -312,7 +407,7 @@ const qaData = [
 ];
 
 /* =====================================================================
-   3. SỐ PHỨC — thao tác cơ bản
+   3. SỐ PHỨC VÀ BỘ PARSER TOÁN HỌC (Giữ nguyên)
    ===================================================================== */
 const C = {
   add: (a,b) => ({re: a.re+b.re, im: a.im+b.im}),
@@ -326,17 +421,12 @@ const C = {
   abs: a => Math.sqrt(a.re*a.re + a.im*a.im)
 };
 
-/* =====================================================================
-   4. TOKENIZER & PARSER biểu thức phức
-      Hỗ trợ: số thực, hậu tố j/i, + - * /, (), sqrt(), exp(), cos(), sin(), pi, e
-   ===================================================================== */
 function tokenize(s) {
   const tokens = [];
   let i = 0;
   while (i < s.length) {
     const c = s[i];
     if (/\s/.test(c)) { i++; continue; }
-
     if (/[0-9.]/.test(c)) {
       let j = i;
       while (j < s.length && /[0-9.]/.test(s[j])) j++;
@@ -399,7 +489,6 @@ function callFunction(name, args) {
 function parseComplex(expr) {
   const tokens = tokenize(expr.trim());
   let pos = 0;
-
   const peek  = () => tokens[pos];
   const next  = () => tokens[pos++];
 
@@ -412,7 +501,6 @@ function parseComplex(expr) {
     }
     return left;
   }
-
   function parseTerm() {
     let left = parseFactor();
     while (true) {
@@ -425,7 +513,6 @@ function parseComplex(expr) {
         continue;
       }
       if (tok.type === 'ident' || tok.value === '(') {
-        // phép nhân ngầm: 2j, 2pi, 2(3)...
         const right = parseFactor();
         left = C.mul(left, right);
         continue;
@@ -434,7 +521,6 @@ function parseComplex(expr) {
     }
     return left;
   }
-
   function parseFactor() {
     const tok = peek();
     if (tok && tok.type === 'op' && (tok.value === '+' || tok.value === '-')) {
@@ -444,7 +530,6 @@ function parseComplex(expr) {
     }
     return parsePrimary();
   }
-
   function parsePrimary() {
     const tok = peek();
     if (!tok) throw new Error('Biểu thức kết thúc đột ngột');
@@ -474,21 +559,16 @@ function parseComplex(expr) {
     }
     throw new Error('Token bất ngờ: ' + tok.value);
   }
-
   const result = parseExpr();
   if (pos < tokens.length) throw new Error('Token dư ở cuối biểu thức');
   return result;
 }
 
-/* =====================================================================
-   5. HIỂN THỊ SỐ PHỨC
-   ===================================================================== */
 function formatComplex(z) {
   const r = v => Math.round(v * 10000) / 10000;
   let re = r(z.re), im = r(z.im);
   if (Math.abs(re) < 1e-9) re = 0;
   if (Math.abs(im) < 1e-9) im = 0;
-
   if (im === 0) return String(re);
   if (re === 0) return String(im) + 'i';
   const sign = im >= 0 ? '+' : '-';
@@ -496,28 +576,19 @@ function formatComplex(z) {
 }
 
 /* =====================================================================
-   6. CHAT UI
+   4. CHAT UI
    ===================================================================== */
 const chatEl = document.getElementById('chat');
-
 function clearChatDOM() { chatEl.innerHTML = ''; }
-
 function appendMessage(type, text) {
   const div = document.createElement('div');
   div.className = 'msg msg-' + type;
   div.textContent = text;
   chatEl.appendChild(div);
 }
-
-function appendSystemMessage(text) {
-  appendMessage('system', '[Hệ thống]: ' + text);
-}
-
+function appendSystemMessage(text) { appendMessage('system', '[Hệ thống]: ' + text); }
 function scrollChatToTop() { chatEl.scrollTop = 0; }
 
-/* =====================================================================
-   7. ĐỌC & HIỂN THỊ CHUYÊN ĐỀ
-   ===================================================================== */
 function formatTopicBody(item) {
   const cot = (item.cot_steps || []).map(s => '   └─ ' + s).join('\n');
   return (
@@ -538,21 +609,14 @@ function showTopic(key) {
   scrollChatToTop();
 }
 
-/* =====================================================================
-   8. SINH CÂU TRẢ LỜI (giống generate_ai_response trong bản Python)
-   ===================================================================== */
 function generateResponse(query) {
   const qLower = query.toLowerCase().trim();
-
-  // (1) khớp nguyên văn / chứa nhau trong HoiDap.json
   for (const item of qaData) {
     const savedQ = (item.question || '').toLowerCase().trim();
     if (qLower === savedQ || qLower.includes(savedQ) || savedQ.includes(qLower)) {
       return item.answer || '';
     }
   }
-
-  // (2) khớp theo số từ trùng (overlap >= 2)
   const qWords = new Set(qLower.split(/\s+/).filter(w => w.length > 2));
   let bestAnswer = null, maxOverlap = 0;
   for (const item of qaData) {
@@ -565,24 +629,15 @@ function generateResponse(query) {
     }
   }
   if (bestAnswer) return bestAnswer;
-
-  // (3) tra Knowledge Base
   for (const key in knowledgeBase) {
     const item = knowledgeBase[key];
     const title = (item.title || '').toLowerCase();
     const concept = (item.concept || '').toLowerCase();
     for (const w of qWords) {
-      if (title.includes(w) || concept.includes(w)) {
-        return formatTopicBody(item);
-      }
+      if (title.includes(w) || concept.includes(w)) return formatTopicBody(item);
     }
   }
-
-  // (4) fallback
-  return (
-    `Hệ thống chưa tìm thấy câu trả lời phù hợp cho '${query}'.\n` +
-    `🤖 Bạn có thể chọn câu hỏi khác từ menu thả xuống hoặc tự nhập câu hỏi mới!`
-  );
+  return `Hệ thống chưa tìm thấy câu trả lời phù hợp cho '${query}'.\n🤖 Bạn có thể chọn câu hỏi khác từ menu thả xuống hoặc tự nhập câu hỏi mới!`;
 }
 
 function sendQuestion() {
@@ -590,44 +645,22 @@ function sendQuestion() {
   if (!q) return;
   clearChatDOM();
   appendMessage('user', `👤 Sinh viên: ${q}`);
-  const ans = generateResponse(q);
-  appendMessage('ai', `🤖 Quantum AI Tutor:\n${ans}\n${'-'.repeat(68)}`);
+  appendMessage('ai', `🤖 Quantum AI Tutor:\n${generateResponse(q)}\n${'-'.repeat(68)}`);
   scrollChatToTop();
 }
 
 /* =====================================================================
-   9. MÔ PHỎNG 1-QUBIT
+   5. MÔ PHỎNG
    ===================================================================== */
 const invSqrt2 = 1 / Math.sqrt(2);
 const GATES = {
-  "I (Identity - Giữ nguyên)": [
-    [{re: 1, im: 0},         {re: 0, im: 0}],
-    [{re: 0, im: 0},         {re: 1, im: 0}]
-  ],
-  "H (Hadamard)": [
-    [{re: invSqrt2, im: 0},  {re: invSqrt2,  im: 0}],
-    [{re: invSqrt2, im: 0},  {re: -invSqrt2, im: 0}]
-  ],
-  "X (Pauli-X / NOT)": [
-    [{re: 0, im: 0}, {re: 1, im: 0}],
-    [{re: 1, im: 0}, {re: 0, im: 0}]
-  ],
-  "Y (Pauli-Y)": [
-    [{re: 0, im: 0},  {re: 0, im: -1}],
-    [{re: 0, im: 1},  {re: 0, im: 0}]
-  ],
-  "Z (Pauli-Z)": [
-    [{re: 1, im: 0},  {re: 0, im: 0}],
-    [{re: 0, im: 0},  {re: -1, im: 0}]
-  ],
-  "S (Phase π/2)": [
-    [{re: 1, im: 0}, {re: 0, im: 0}],
-    [{re: 0, im: 0}, {re: 0, im: 1}]
-  ],
-  "T (Phase π/4)": [
-    [{re: 1, im: 0}, {re: 0, im: 0}],
-    [{re: 0, im: 0}, {re: Math.cos(Math.PI/4), im: Math.sin(Math.PI/4)}]
-  ]
+  "I (Identity - Giữ nguyên)": [[{re: 1, im: 0}, {re: 0, im: 0}], [{re: 0, im: 0}, {re: 1, im: 0}]],
+  "H (Hadamard)": [[{re: invSqrt2, im: 0}, {re: invSqrt2, im: 0}], [{re: invSqrt2, im: 0}, {re: -invSqrt2, im: 0}]],
+  "X (Pauli-X / NOT)": [[{re: 0, im: 0}, {re: 1, im: 0}], [{re: 1, im: 0}, {re: 0, im: 0}]],
+  "Y (Pauli-Y)": [[{re: 0, im: 0}, {re: 0, im: -1}], [{re: 0, im: 1}, {re: 0, im: 0}]],
+  "Z (Pauli-Z)": [[{re: 1, im: 0}, {re: 0, im: 0}], [{re: 0, im: 0}, {re: -1, im: 0}]],
+  "S (Phase π/2)": [[{re: 1, im: 0}, {re: 0, im: 0}], [{re: 0, im: 0}, {re: 0, im: 1}]],
+  "T (Phase π/4)": [[{re: 1, im: 0}, {re: 0, im: 0}], [{re: 0, im: 0}, {re: Math.cos(Math.PI/4), im: Math.sin(Math.PI/4)}]]
 };
 
 function simulateSingle() {
@@ -635,28 +668,19 @@ function simulateSingle() {
   const betaStr  = document.getElementById('betaInput').value.trim();
   const gateName = document.getElementById('gateSelect').value;
 
-  if (!alphaStr || !betaStr) {
-    alert('Thiếu dữ liệu. Vui lòng nhập đầy đủ biên độ α và β!');
-    return;
-  }
-
+  if (!alphaStr || !betaStr) return alert('Thiếu dữ liệu. Vui lòng nhập đầy đủ biên độ α và β!');
   let alpha, beta;
   try {
     alpha = parseComplex(alphaStr);
     beta  = parseComplex(betaStr);
   } catch (e) {
-    alert('Lỗi cú pháp. Biểu thức biên độ không hợp lệ!\nVí dụ hợp lệ: 1, 0.6, 1/sqrt(2), 0.5j');
-    return;
+    return alert('Lỗi cú pháp. Biểu thức biên độ không hợp lệ!\nVí dụ hợp lệ: 1, 0.6, 1/sqrt(2), 0.5j');
   }
 
   let normSq = C.abs(alpha)**2 + C.abs(beta)**2;
-  if (normSq === 0) {
-    alert('Lỗi trạng thái. Vector trạng thái không thể bằng [0, 0]!');
-    return;
-  }
+  if (normSq === 0) return alert('Lỗi trạng thái. Vector trạng thái không thể bằng [0, 0]!');
 
   clearChatDOM();
-
   const logs = [];
   if (Math.abs(normSq - 1.0) > 1e-4) {
     const norm = Math.sqrt(normSq);
@@ -680,19 +704,13 @@ function simulateSingle() {
   logs.push(`• Trạng thái sau biến đổi: |ψ_out⟩ = ${formatComplex(newAlpha)}|0⟩ + ${formatComplex(newBeta)}|1⟩`);
   logs.push(`👉 XÁC SUẤT ĐO LƯỜNG (Quy tắc Born): P(|0⟩) = ${(prob0*100).toFixed(2)}%  |  P(|1⟩) = ${(prob1*100).toFixed(2)}%`);
 
-  const msg = `🚀 MÔ PHỎNG BIẾN ĐỔI LƯỢNG TỬ (${gateName}):\n` + logs.join('\n');
-
   appendMessage('user', `👤 Sinh viên: Mô phỏng tác động cổng ${gateName} lên |ψ⟩`);
-  appendMessage('cot',  `🤖 Quantum AI Tutor:\n${msg}\n${'-'.repeat(68)}`);
+  appendMessage('cot',  `🤖 Quantum AI Tutor:\n🚀 MÔ PHỎNG BIẾN ĐỔI LƯỢNG TỬ (${gateName}):\n` + logs.join('\n') + `\n${'-'.repeat(68)}`);
   scrollChatToTop();
 }
 
-/* =====================================================================
-   10. MÔ PHỎNG TRẠNG THÁI BELL
-   ===================================================================== */
 function simulateBell() {
   clearChatDOM();
-
   const msg =
     "🔗 MÔ PHỎNG TỪNG BƯỚC MẠCH TẠO TRẠNG THÁI RỐI BELL |Φ+⟩:\n" +
     "• Bước 0 (Khởi tạo): Thanh ghi 2 qubit ở trạng thái cơ sở |ψ_0⟩ = |00⟩ = [1, 0, 0, 0]^T.\n" +
@@ -705,22 +723,18 @@ function simulateBell() {
     "   - Xác suất đo được |00⟩: 50.00%\n" +
     "   - Xác suất đo được |11⟩: 50.00%\n" +
     "   - Xác suất đo được |01⟩ hoặc |10⟩: 0.00% (Hai qubit luôn đồng bộ trạng thái tuyệt đối!)";
-
   appendMessage('user', '👤 Sinh viên: Yêu cầu mô phỏng mạch tạo trạng thái rối Bell |Φ+⟩');
   appendMessage('cot',  `🤖 Quantum AI Tutor:\n${msg}\n${'-'.repeat(68)}`);
   scrollChatToTop();
 }
 
-/* =====================================================================
-   11. CLEAR ALL
-   ===================================================================== */
 function clearAllChat() {
   clearChatDOM();
   appendSystemMessage('Đã xóa lịch sử trò chuyện. Bắt đầu phiên học Điện toán lượng tử mới.');
 }
 
 /* =====================================================================
-   12. KHỞI TẠO GIAO DIỆN
+   6. KHỞI TẠO
    ===================================================================== */
 function populateTree() {
   const treeEl = document.getElementById('tree');
@@ -790,37 +804,21 @@ function populateQuestionList() {
 
 function renderCheatSheet() {
   document.getElementById('cheat').textContent =
-    "• Trạng thái chuẩn:\n" +
-    "  |0⟩ = [1, 0]^T   |1⟩ = [0, 1]^T\n" +
-    "  |+⟩ = (|0⟩ + |1⟩)/√2\n" +
-    "  |-⟩ = (|0⟩ - |1⟩)/√2\n\n" +
-    "• Ma trận các cổng cơ bản:\n" +
-    "  - H = (1/√2) * [[1,  1], [1, -1]]\n" +
-    "  - X = [[0, 1], [1,  0]]\n" +
-    "  - Y = [[0, -i], [i, 0]]\n" +
-    "  - Z = [[1, 0], [0, -1]]\n" +
-    "  - S = [[1, 0], [0,  i]]\n" +
-    "  - T = [[1, 0], [0, e^(iπ/4)]]\n\n" +
-    "• Quy tắc Born (Xác suất đo):\n" +
-    "  P(0) = |α|²  và  P(1) = |β|²";
+    "• Trạng thái chuẩn:\n  |0⟩ = [1, 0]^T   |1⟩ = [0, 1]^T\n  |+⟩ = (|0⟩ + |1⟩)/√2\n  |-⟩ = (|0⟩ - |1⟩)/√2\n\n" +
+    "• Ma trận các cổng cơ bản:\n  - H = (1/√2) * [[1,  1], [1, -1]]\n  - X = [[0, 1], [1,  0]]\n  - Y = [[0, -i], [i, 0]]\n  - Z = [[1, 0], [0, -1]]\n  - S = [[1, 0], [0,  i]]\n  - T = [[1, 0], [0, e^(iπ/4)]]\n\n" +
+    "• Quy tắc Born (Xác suất đo):\n  P(0) = |α|²  và  P(1) = |β|²";
 }
 
-/* ===== GẮN SỰ KIỆN ===== */
 document.getElementById('btnSend').addEventListener('click', sendQuestion);
 document.getElementById('btnClear').addEventListener('click', clearAllChat);
 document.getElementById('btnSim').addEventListener('click', simulateSingle);
 document.getElementById('btnBell').addEventListener('click', simulateBell);
-document.getElementById('qInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') sendQuestion();
-});
+document.getElementById('qInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendQuestion(); });
 
-/* ===== BOOT ===== */
 populateTree();
 populateQuestionList();
 renderCheatSheet();
-appendSystemMessage(
-  `Đã tải ${Object.keys(knowledgeBase).length} chuyên đề và ${qaData.length} câu hỏi mẫu vào ô nhập liệu.`
-);
+appendSystemMessage(`Đã tải ${Object.keys(knowledgeBase).length} chuyên đề và ${qaData.length} câu hỏi mẫu vào ô nhập liệu.`);
 </script>
 </body>
 </html>
